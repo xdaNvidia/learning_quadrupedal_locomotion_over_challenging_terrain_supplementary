@@ -9,14 +9,14 @@ int main(int argc, char *argv[]) {
 
   ///Hard-coded. TODO: clean it up
   int history_len = 100; // todo: move to controller config.
-  std::string rsc_path = "/home/jolee/raisimws/learning_locomotion_over_challening_terrain_supplementary/rsc";
+  std::string rsc_path = "/home/xda/raisim_workspace/challenging_terrain/rsc";
 
   std::string urdf_path = rsc_path + "/robot/c100/urdf/anymal_minimal.urdf";
   std::string actuator_path = rsc_path + "/actuator/C100/seaModel_2500.txt";
   std::string network_path = rsc_path + "/controller/c100/graph.pb";
   std::string param_path = rsc_path + "/controller/c100/param.txt";
 
-  raisim::World::setActivationKey("/home/jolee/raisimws/install/activation.raisim");
+//  raisim::World::setActivationKey("/home/jolee/raisimws/install/activation.raisim");
 
   Env::blind_locomotion sim(true, 0, urdf_path, actuator_path);
 
