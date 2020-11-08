@@ -594,22 +594,42 @@ class blind_locomotion {
       auto vis = raisim::OgreVis::get();
       /// visualize contact
 
+//      std::cout << "anymalVisual_ size: " << anymalVisual_->size() << "\n";
+//      std::cout << "anymalVisual_ name: \n";
+//      for (size_t i; i<anymalVisual_->size(); i++) {
+//        std::cout << anymalVisual_->at(i).name << "\n";
+//        std::cout << anymalVisual_->at(i).graphics->getAttachedObject(0)->getName() << "\n";
+//      }
+//      std::cout << "foot name: \n";
+//      std::cout << anymalVisual_->at(29 + 10 * 0).graphics->getAttachedObject(0)->getName() << "\n";
+//      std::cout << anymalVisual_->at(30 + 10 * 0).graphics->getAttachedObject(0)->getName() << "\n";
+//      auto names = anymal_->getBodyNames();
+//      std::cout << "Body Name: \n";
+//      for (const std::string &name : names) {
+//        std::cout << name << "\n";
+//      }
+//      std::cout << "vis object name: \n";
+//      auto visObjects = anymal_->getVisOb();
+//      for (const auto &visObject : visObjects) {
+//        std::cout << visObject.name << "\n";
+//      }
+
       for (int i = 0; i < 4; i++) {
         auto foot0 = vis->getSceneManager()->getEntity(
-            anymalVisual_->at(29 + 10 * i).graphics->getAttachedObject(0)->getName());
-        auto foot1 = vis->getSceneManager()->getEntity(
-            anymalVisual_->at(30 + 10 * i).graphics->getAttachedObject(0)->getName());
+            anymalVisual_->at(4 + 4 * i).graphics->getAttachedObject(0)->getName());
+//        auto foot1 = vis->getSceneManager()->getEntity(
+//            anymalVisual_->at(30 + 10 * i).graphics->getAttachedObject(0)->getName());
 
         if (footContactState_[i]) {
           foot0->setMaterialName("blueEmit");
-          foot1->setMaterialName("blueEmit");
+//          foot1->setMaterialName("blueEmit");
         } else {
           foot0->setMaterialName("black");
-          foot1->setMaterialName("black");
+//          foot1->setMaterialName("black");
         }
         if(footFriction_[i] < 0.5){
           foot0->setMaterialName("green");
-          foot1->setMaterialName("green");
+//          foot1->setMaterialName("green");
         }
       }
 

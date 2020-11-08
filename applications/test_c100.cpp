@@ -11,7 +11,8 @@ int main(int argc, char *argv[]) {
   int history_len = 100; // todo: move to controller config.
   std::string rsc_path = "/home/xda/raisim_workspace/challenging_terrain/rsc";
 
-  std::string urdf_path = rsc_path + "/robot/c100/urdf/anymal_minimal.urdf";
+//  std::string urdf_path = rsc_path + "/robot/c100/urdf/anymal_minimal.urdf";
+  std::string urdf_path = rsc_path + "/robot/laikago_description/urdf/laikago.urdf";
   std::string actuator_path = rsc_path + "/actuator/C100/seaModel_2500.txt";
   std::string network_path = rsc_path + "/controller/c100/graph.pb";
   std::string param_path = rsc_path + "/controller/c100/param.txt";
@@ -40,7 +41,7 @@ int main(int argc, char *argv[]) {
 
   sim.init();
   /// simulate for 30 seconds.
-  for (int i = 0; i < 1500; i++) {
+  for (int i = 0; i < 15000; i++) {
     sim.integrate();
     sim.getHistory(history, history_len);
     sim.getState(state);
