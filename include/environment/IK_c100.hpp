@@ -38,31 +38,31 @@ class InverseKinematics {
     PositionBaseToHAACenterInBaseFrame.resize(4);
 
 
-    PositionBaseToHipInBaseFrame[0] << 0.3, 0.104, 0.0;
-    PositionBaseToHipInBaseFrame[1] << 0.3, -0.104, 0.0;
-    PositionBaseToHipInBaseFrame[2] << -0.3, 0.104, 0.0;
-    PositionBaseToHipInBaseFrame[3] << -0.3, -0.104, 0.0;
+    PositionBaseToHipInBaseFrame[0] << 0.21935, 0.0875, 0;
+    PositionBaseToHipInBaseFrame[1] << 0.21935, -0.0875, 0;
+    PositionBaseToHipInBaseFrame[2] << -0.21935, 0.0875, 0;
+    PositionBaseToHipInBaseFrame[3] << -0.21935, -0.0875, 0;
 
-    positionHipToThighInHipFrame[0] << 0.06, 0.08381, -0.0;
-    positionHipToThighInHipFrame[1] << 0.06, -0.08381, -0.0;
-    positionHipToThighInHipFrame[2] << -0.06, 0.08381, -0.0;
-    positionHipToThighInHipFrame[3] << -0.06, -0.08381, -0.0;
+    positionHipToThighInHipFrame[0] << 0, 0.037, 0;
+    positionHipToThighInHipFrame[1] << 0, -0.037, 0;
+    positionHipToThighInHipFrame[2] << 0, 0.037, 0;
+    positionHipToThighInHipFrame[3] << 0, -0.037, 0;
 
-    positionThighToShankInThighFrame[0] << 0.0, 0.1003, -0.285;
-    positionThighToShankInThighFrame[1] << 0.0, -0.1003, -0.285;
-    positionThighToShankInThighFrame[2] << 0.0, 0.1003, -0.285;
-    positionThighToShankInThighFrame[3] << 0.0, -0.1003, -0.285;
+    positionThighToShankInThighFrame[0] << 0.0, 0.0, -0.25;
+    positionThighToShankInThighFrame[1] << 0.0, 0.0, -0.25;
+    positionThighToShankInThighFrame[2] << 0.0, 0.0, -0.25;
+    positionThighToShankInThighFrame[3] << 0.0, 0.0, -0.25;
 
-    positionShankToFootInShankFrame[0] << 0.08795, -0.01305, -0.33797;
-    positionShankToFootInShankFrame[1] << 0.08795, 0.01305, -0.33797;
-    positionShankToFootInShankFrame[2] << -0.08795, -0.01305, -0.33797;
-    positionShankToFootInShankFrame[3] << -0.08795, 0.01305, -0.33797;
+    positionShankToFootInShankFrame[0] << 0.0, 0.0, -0.25;
+    positionShankToFootInShankFrame[1] << 0.0, 0.0, -0.25;
+    positionShankToFootInShankFrame[2] << 0.0, 0.0, -0.25;
+    positionShankToFootInShankFrame[3] << 0.0, 0.0, -0.25;
 
 
-    positionShankToFootInShankFrame[0][2] += 0.0225;
-    positionShankToFootInShankFrame[1][2] += 0.0225;
-    positionShankToFootInShankFrame[2][2] += 0.0225;
-    positionShankToFootInShankFrame[3][2] += 0.0225;
+    positionShankToFootInShankFrame[0][2] += 0.0265;
+    positionShankToFootInShankFrame[1][2] += 0.0265;
+    positionShankToFootInShankFrame[2][2] += 0.0265;
+    positionShankToFootInShankFrame[3][2] += 0.0265;
 
     for (size_t i = 0; i < 4; i++) {
       PositionBaseToHAACenterInBaseFrame[i] = PositionBaseToHipInBaseFrame[i];
@@ -187,17 +187,17 @@ class InverseKinematics {
 
     double qKFE = phi1 + phi2 - KFEOffset_;
 
-    if (limb < 2) {
+//    if (limb < 2) {
       qKFE *= -1.0;
-    }
+//    }
     legJoints[2] = qKFE;
 
     double theta_prime = atan2(positionHAAToFootInBaseFrame[0], r);
     double qHFE = phi1 - theta_prime;
 
-    if (limb > 1) {
-      qHFE = -phi1 - theta_prime;
-    }
+//    if (limb > 1) {
+//      qHFE = -phi1 - theta_prime;
+//    }
     legJoints[1] = qHFE;
     return true;
   }

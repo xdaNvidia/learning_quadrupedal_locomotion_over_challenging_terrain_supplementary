@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
   std::string rsc_path = "/home/xda/raisim_workspace/challenging_terrain/rsc";
 
 //  std::string urdf_path = rsc_path + "/robot/c100/urdf/anymal_minimal.urdf";
-  std::string urdf_path = rsc_path + "/robot/laikago_description/urdf/laikago.urdf";
+  std::string urdf_path = rsc_path + "/robot/laikago_description/urdf/laikago_mirror.urdf";
   std::string actuator_path = rsc_path + "/actuator/C100/seaModel_2500.txt";
   std::string network_path = rsc_path + "/controller/c100/graph.pb";
   std::string param_path = rsc_path + "/controller/c100/param.txt";
@@ -35,9 +35,9 @@ int main(int argc, char *argv[]) {
 
   /// set terrain properties
   Eigen::Matrix<float, -1, 1> task_params(4);
-  task_params << 0.0, 0.05, 0.5, 0.5;
+  task_params << 0.0, 0.0, 0.0, 0.0;
   sim.updateTask(task_params);
-  sim.setFootFriction(0, 0.1);
+  sim.setFootFriction(0, 0.6);
 
   sim.init();
   /// simulate for 30 seconds.
