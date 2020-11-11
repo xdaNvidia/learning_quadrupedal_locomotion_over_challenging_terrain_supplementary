@@ -87,10 +87,10 @@ class blind_locomotion {
     terrainparams_.setZero();
 
     footPositionOffset_ <<
-        +0.25, +0.14, h0_,
-        +0.25, -0.14, h0_,
-        -0.25, +0.14, h0_,
-        -0.25, -0.14, h0_;
+        +0.25, +0.18, h0_,
+        +0.25, -0.18, h0_,
+        -0.25, +0.18, h0_,
+        -0.25, -0.18, h0_;
 
     Eigen::Vector3d sol;
     for (int i = 0; i < 4; i++) {
@@ -102,7 +102,7 @@ class blind_locomotion {
     u_.setZero(18);
 
     q0.resize(19);
-    q0 << 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, jointNominalConfig_;
+    q0 << 0.0, 0.0, 0.5, 1.0, 0.0, 0.0, 0.0, jointNominalConfig_;
     u0.setZero(18);
 
     q_initialNoiseScale.setZero(19);
@@ -270,18 +270,6 @@ class blind_locomotion {
     jointVelHist_.setZero();
     jointPosHist_.setZero();
     torqueHist_.setZero();
-
-//    anymal_->printOutBodyNamesInOrder();
-//    auto collisionSet = anymal_->getCollisionBodies();
-//    std::cout << "collision body:\n";
-//    for (auto const &collision : collisionSet) {
-//      std::cout << collision.name << "\n";
-//    }
-//    auto visObjectSet = anymal_->getVisColOb();
-//    std::cout << "vis col ob:\n";
-//    for (auto const &visObject : visObjectSet) {
-//      std::cout << visObject.name << "\n";
-//    }
 
     for (int i = 0; i < 4; i++) {
       footPos_.push_back(anymal_->getCollisionBodies()[5 * i + 5].posOffset);
@@ -605,6 +593,7 @@ class blind_locomotion {
     if (vis_on_) {
       auto vis = raisim::OgreVis::get();
       /// visualize contact
+
       for (int i = 0; i < 4; i++) {
         auto foot0 = vis->getSceneManager()->getEntity(
             anymalVisual_->at(4 + 4 * i).graphics->getAttachedObject(0)->getName());
@@ -797,15 +786,15 @@ class blind_locomotion {
 
       footPos_Target[j][0] = footPositionOffset_.tail(12)[3 * j];
       footPos_Target[j][1] = footPositionOffset_.tail(12)[3 * j + 1];
-      footPos_Target[j][2] = footPositionOffset_.tail(12)[3 * j + 2];
+      footPos_Target[j][2] = 0.0;
 
-//      footPos_Target[j] += e_g_noisy_ * (footPositionOffset_.tail(12)[3 * j + 2] + dh);
+      footPos_Target[j] += e_g_noisy_ * (footPositionOffset_.tail(12)[3 * j + 2] + dh);
 
       IK_.IKSagittal(sol, footPos_Target[j], j);
       jointPositionTarget_.segment<3>(3 * j) = sol;
-//      jointPositionTarget_(3 * j) += scaledAction_.tail(12)[3 * j];
-//      jointPositionTarget_(3 * j + 1) += scaledAction_.tail(12)[3 * j + 1];
-//      jointPositionTarget_(3 * j + 2) += scaledAction_.tail(12)[3 * j + 2];;
+      jointPositionTarget_(3 * j) += scaledAction_.tail(12)[3 * j];
+      jointPositionTarget_(3 * j + 1) += scaledAction_.tail(12)[3 * j + 1];
+      jointPositionTarget_(3 * j + 2) += scaledAction_.tail(12)[3 * j + 2];
     }
 
     t_ = 0.0;
@@ -1278,9 +1267,9 @@ class blind_locomotion {
       IK_.IKSagittal(sol, target, j);
     }
 
-//    for (int i = 7; i < 19; i++) {
-//      q_(i) += q_initialNoiseScale(i) * rn_.sampleUniform(); // sample uniform
-//    }
+    for (int i = 7; i < 19; i++) {
+      q_(i) += q_initialNoiseScale(i) * rn_.sampleUniform(); // sample uniform
+    }
 
     /// decide initial height
 
@@ -1301,7 +1290,7 @@ class blind_locomotion {
         }
       }
 
-//      q_(2) -= minFootGap;
+      q_(2) -= minFootGap;
     } else {
       double minFootGap = footPos_W[0][2];
       int idx = 0;
@@ -1312,7 +1301,7 @@ class blind_locomotion {
           idx = i;
         }
       }
-//      q_(2) -= minFootGap;
+      q_(2) -= minFootGap;
     }
 
     uPrev_ = u_;
@@ -1714,7 +1703,7 @@ class blind_locomotion {
   double pi_[4];
   double piD_[4];
   double clearance_[4];
-  double h0_ = -0.43;
+  double h0_ = -0.40;
   Eigen::VectorXd uPrev_;
   Eigen::VectorXd acc_;
   int steps_ = 0;

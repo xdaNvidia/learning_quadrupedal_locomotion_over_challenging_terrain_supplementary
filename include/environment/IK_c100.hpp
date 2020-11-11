@@ -187,17 +187,17 @@ class InverseKinematics {
 
     double qKFE = phi1 + phi2 - KFEOffset_;
 
-//    if (limb < 2) {
+    if (limb < 2) {
       qKFE *= -1.0;
-//    }
+    }
     legJoints[2] = qKFE;
 
     double theta_prime = atan2(positionHAAToFootInBaseFrame[0], r);
     double qHFE = phi1 - theta_prime;
 
-//    if (limb > 1) {
-//      qHFE = -phi1 - theta_prime;
-//    }
+    if (limb > 1) {
+      qHFE = -phi1 - theta_prime;
+    }
     legJoints[1] = qHFE;
     return true;
   }
